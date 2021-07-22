@@ -1,0 +1,33 @@
+{
+  "app": "npx ts-node bin/buffered-webhook.ts",
+  "context": {
+    "stg": {
+      "awsAccount": "379218963268",
+      "awsRegion": "us-west-2",
+
+      "environment": "stg",
+      "service": "webhook-buffer",
+
+      "subdomain": "webhook-buffer",
+      "domain": "mydomain.com",
+      "acmCertificateArn": "arn:aws:acm:us-west-2:xxx:certificate/xxx-xx-xx-xx-xx",
+      "sentryDsn": "https://xxxxxx@o926653.ingest.sentry.io/xxxxx",
+      "create_faux_backend": true,
+      "backend_url": "https://backend.mydomain.com"
+    },
+    "prd": {
+      "awsAccount": "1111111111111",
+      "awsRegion": "us-west-2",
+
+      "environment": "prd",
+      "service": "webhook-buffer",
+
+      "subdomain": "webhook-buffer",
+      "domain": "mydomain.com",
+      "acmCertificateArn": "arn:aws:acm:us-west-2:xxx:certificate/xxx-xx-xx-xx-xx",
+      "sentryDsn": "https://xxxxxx@o926653.ingest.sentry.io/xxxxx",
+      "create_faux_backend": false,
+      "backend_url": "https://backend.mydomain.com"
+    }
+  }
+}

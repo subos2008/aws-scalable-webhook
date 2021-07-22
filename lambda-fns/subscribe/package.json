@@ -1,0 +1,10 @@
+{
+  "name": "lambda",
+  "version": "0.1.0",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.14.0",
+    "@sentry/node": "^5.30.0",
+    "axios": "^0.21.1",
+    "serverless-sentry-lib": "^2.3.0"
+  }
+}
