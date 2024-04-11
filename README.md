@@ -1,5 +1,7 @@
 # SQS Webhook Buffer
 
+With tests for deployed code and GroupID to ensure sequential processing where needed.
+
 ## Intro
 
 This is an implementation of the Webhook Buffer pattern - see the end of this README for the original docs this repo was forked from which detail the pattern. 
@@ -24,7 +26,9 @@ We used this project as a chance to experiment with cdk vs terraform. We weren't
 
 ## Terminology
 
-Faux Backend - a simple dummy backed used during development and testing.
+### Faux Backend
+
+A simple dummy backed used during development and as part of the testing rig. You can run a complete test set including failure cases if you deploy this backend.
 
 ## Setup
 
@@ -55,6 +59,8 @@ Configure your environment in `cdk.json`
 Then setup the code with:
 
 `npm run deploy --env=<env>` # NB: the `=` sign is required, a space doesn't work
+
+This will run post deployment tests.
 
 Check what will be modified on a deployment
 
@@ -225,9 +231,11 @@ Link here says check the region of the stack and the forwarder ARN match but tha
 
 The `Function Name` facet is a built in one that shows the lambda name.
 
-### Porting to Terraform Backend
+### Porting to Terraform
 
 https://github.com/blakegreendev/cdktf-typescript-aws-webservice/blob/master/main.ts is an example of a lambda with DynamoDB
+
+---
 
 # Original Documentation - The Scalable Webhook
 
