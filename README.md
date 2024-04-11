@@ -1,14 +1,16 @@
 # SQS Webhook Buffer
 
-With tests for deployed code and GroupID to ensure sequential processing where needed.
+With [tests for deployed code](test/post-deploy.test.ts) and GroupIDs to ensure sequential processing within a group (i.e. OrderId).
 
-## Intro
+Based on [gh/cdk-patterns/serverless/the-scalable-webhook](https://github.com/cdk-patterns/serverless/tree/08e31630e738f1b463c640cad1de6ca73d85f1c2/the-scalable-webhook)
+
+## Introduction
 
 This is an implementation of the Webhook Buffer pattern - see the end of this README for the original docs this repo was forked from which detail the pattern. 
 
 A Webhook Buffer insets a buffer via a FIFO queue in front of an endpoint. Implemented with highly available and scalable AWS services this buffer shields you from backend scalability issues and downtime - in the even an important backend is down you don't loose any requests sent to the endpoint. 
 
-It's a passthrough that largely passes through whatever it recieves to the backend. We have added a grouping ID to maintain ordering - i.e. if you use your order_id as the Grouping ID then all operations for a given order with remain in-order.
+The Webhook Buffer is a passthrough that largely passes through whatever body and headers it recieves to the backend. We have added a grouping ID to maintain ordering - i.e. if you use your order_id as the Grouping ID then all operations for a given order with remain in-order.
 
 The endpoint immediately returns 200 for all requests so this pattern is not suitable for endpoints that need to return anything to the caller. (ed: technically - it returns as soon as the request is queued.)
 
@@ -24,13 +26,13 @@ We used this project as a chance to experiment with cdk vs terraform. We weren't
 1. Unlike terraform `cdk` will not show you a plan or diff and ask if you want to apply. Unless it encounters an error it will just deploy/update immediately. Note that CDK does not deal well with drift in the deployed setup so if you tweaked things manually and came here to reset them - you might find CDK just refuses to apply when resources have changed. See Drift Detection below. CDK will rollback on any error.
 1. Outputs also differ from `terraform`. They are written to `cdk.out.json` but this is local and overwritten on every deploy so `./get-outputs.ts` is provided to retrieve outputs from AWS without re-deploying environments.
 
-## Terminology
+View the CDK code in [bin/buffered-webhook.ts](bin/buffered-webhook.ts) and [lib/buffered-webhook-stack.ts](lib/buffered-webhook-stack.ts).
 
-### Faux Backend
+## The Faux Backend
 
-A simple dummy backed used during development and as part of the testing rig. You can run a complete test set including failure cases if you deploy this backend.
+A special backend that you can optionally deploy. Used as part of the testing rig. If you use this backend you can run a complete set of test cases, including failure cases, against deployed code. You can also use this during development if the API you wish to buffer doesn't have a test environment.
 
-## Setup
+## Deploy with CDK
 
 Assuming you have an AWS profile set up locally called `my-profile` run the following to configure your local env:
 
